@@ -69,7 +69,7 @@ class PersonList extends Component<Persons> {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
+      time: new Date(),
     };
   }
 
@@ -97,7 +97,7 @@ class PersonList extends Component<Persons> {
   }
 
   componentDidMount() {
-    setInterval(() => this.setState({ time: Date.now() }), 1000);
+    setInterval(() => this.setState({ time: new Date() }), 1000);
   }
 }
 
