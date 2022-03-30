@@ -38,6 +38,10 @@ class App extends Component<AppProps> {
       </div>
     );
   }
+
+  componentDidMount() {
+    setInterval(() => this.setState({ time: Date.now() }), 1000);
+  }
 }
 
 function GetNextBirthday(props: Person) {
