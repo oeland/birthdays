@@ -97,7 +97,11 @@ class PersonList extends Component<Persons> {
   }
 
   componentDidMount() {
-    setInterval(() => this.setState({ time: new Date() }), 1000);
+    // this.timerID = setInterval(() => this.setState({ time: new Date() }), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 }
 
