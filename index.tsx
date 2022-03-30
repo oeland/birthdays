@@ -74,8 +74,8 @@ class PersonList extends Component<Persons> {
       <table>
         <tr>
           <th>Name</th>
-          <th>Born</th>
-          <th>Days to birthday</th>
+          <th>Next birthday</th>
+          <th>Days to next birthday</th>
         </tr>
         {this.props.people.map((p) => (
           <tr>
@@ -100,8 +100,7 @@ const familyList: Persons = [
 ];
 
 const friendsList: Persons = [
-  { name: 'Rene Christensen', birthdate: new Date('1980-09-03') },
-  { name: 'Mikkel Hansen', birthdate: new Date('1979-02-02') },
+  { name: 'Rene Christensen', birthdate: new Date('1979-02-02') },
   { name: 'Mark Herdal', birthdate: new Date('1978-03-20') },
   { name: 'Lars Lauritzen', birthdate: new Date('1975-12-17') },
   { name: 'Jonas Christensen', birthdate: new Date('1979-11-22') },
