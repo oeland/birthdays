@@ -10,7 +10,11 @@ import {
 } from 'date-fns';
 
 type AppProps = {
-  persons: {
+  family: {
+    name: string;
+    birthday: Date;
+  }[];
+  friends: {
     name: string;
     birthday: Date;
   }[];
@@ -26,7 +30,10 @@ class App extends Component<AppProps> {
       <div>
         <h1>Birthdays</h1>
         <p>
-          <PersonList persons={this.props.persons} />
+          <PersonList people={this.props.family} />
+        </p>
+        <p>
+          <PersonList people={this.props.friends} />
         </p>
       </div>
     );
@@ -79,7 +86,7 @@ class PersonList extends Component<AppProps> {
           <th>Born</th>
           <th>Days to birthday</th>
         </tr>
-        {this.props.persons.map((person) => (
+        {this.props.people.map((person) => (
           <tr>
             <td>{person.name}</td>
             <td>{GetThisYearsBirthdate(person)}</td>
@@ -91,7 +98,7 @@ class PersonList extends Component<AppProps> {
   }
 }
 
-const personList = [
+const familyList = [
   { name: 'Kristoffer Hansen', birthday: new Date('1980-09-03') },
   { name: 'Mikkel Hansen', birthday: new Date('1978-07-18') },
   { name: 'Storm Hansen', birthday: new Date('2010-08-02') },
@@ -101,4 +108,16 @@ const personList = [
   { name: 'Erling Hansen', birthday: new Date('1941-08-15') },
 ];
 
-render(<App persons={personList} />, document.getElementById('root'));
+const friendsList = [
+  { name: 'Rene Christensen', birthday: new Date('1980-09-03') },
+  { name: 'Mikkel Hansen', birthday: new Date('1979-02-02') },
+  { name: 'Mark Herdal', birthday: new Date('1978-03-20') },
+  { name: 'Lars Lauritzen', birthday: new Date('1975-12-17') },
+  { name: 'Jonas Christensen', birthday: new Date('1979-11-22') },
+  { name: 'Thomas Hansen', birthday: new Date('1978-11-04') },
+];
+
+render(
+  <App family={familyList} friends={friendsList} />,
+  document.getElementById('root')
+);
