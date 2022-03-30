@@ -38,15 +38,10 @@ class App extends Component<AppProps> {
       </div>
     );
   }
-
-  componentDidMount() {
-    setInterval(() => this.setState({ time: Date.now() }), 1000);
-  }
 }
 
-function GetNextBirthday(props: Person) {
+function GetNextBirthday(props: Person, now: Date) {
   const dob = props.birthdate;
-  const now = new Date();
   const birthDayCurrentYear = new Date(
     now.getFullYear(),
     dob.getMonth(),
@@ -58,22 +53,26 @@ function GetNextBirthday(props: Person) {
   return new Date(now.getFullYear() + addYear, dob.getMonth(), dob.getDate());
 }
 
-function GetDaysUntilBirthday(props: Person) {
-  const now = new Date();
-  const nextBirthDay = GetNextBirthday(props);
+function GetDaysUntilBirthday(props: Person, now: Date) {
+  const nextBirthDay = GetNextBirthday(props, now);
 
   console.log(now, nextBirthDay);
 
   return differenceInDays(nextBirthDay, now) + 1;
 }
 
-function GetAge(props: Person) {
-  const now = new Date();
-
+function GetAge(props: Person, now: Date) {
   return differenceInYears(now, props.birthdate);
 }
 
 class PersonList extends Component<Persons> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date(),
+    };
+  }
+
   render() {
     return (
       <table>
@@ -86,15 +85,19 @@ class PersonList extends Component<Persons> {
         {this.props.people.map((p) => (
           <tr>
             <td>{p.name}</td>
-            <td>{GetAge(p)}</td>
+            <td>{GetAge(p, this.state.time)}</td>
             <td title={'Born ' + format(p.birthdate, 'dd-MM-yyyy')}>
-              {format(GetNextBirthday(p), 'dd-MM-yyyy')}
+              {format(GetNextBirthday(p, this.state.time), 'dd-MM-yyyy')}
             </td>
-            <td>{GetDaysUntilBirthday(p)}</td>
+            <td>{GetDaysUntilBirthday(p, this.state.time)}</td>
           </tr>
         ))}
       </table>
     );
+  }
+
+  componentDidMount() {
+    setInterval(() => this.setState({ time: Date.now() }), 1000);
   }
 }
 
