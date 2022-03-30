@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './style.css';
-import {
-  format,
-  formatDistance,
-  formatRelative,
-  subDays,
-  differenceInDays,
-} from 'date-fns';
+import { format, differenceInDays } from 'date-fns';
 
 type Person = {
   name: string;
   birthdate: Date;
 };
 
-type Persons = Person[];
+type Persons = {
+  people: Person[];
+};
 
 type AppProps = {
   family: Persons;
@@ -41,24 +37,24 @@ class App extends Component<AppProps> {
   }
 }
 
-function GetThisYearsBirthdate(props: { name?: string; birthday: Date }) {
+function GetThisYearsBirthdate(props: Person) {
   var now = new Date();
-  const dob = props.birthday;
+  const dob = props.birthdate;
 
   return format(dob, 'dd/MM') + '/' + now.getFullYear();
 }
 
-function GetDaysUntilBirthday(props: { name?: string; birthday: Date }) {
+function GetDaysUntilBirthday(props: Person) {
   var now = new Date();
   var birthday = new Date(
     now.getFullYear(),
-    props.birthday.getMonth(),
-    props.birthday.getDate()
+    props.birthdate.getMonth(),
+    props.birthdate.getDate()
   );
   var birthdayNextYear = new Date(
     now.getFullYear() + 1,
-    props.birthday.getMonth(),
-    props.birthday.getDate()
+    props.birthdate.getMonth(),
+    props.birthdate.getDate()
   );
 
   var rawDifference = differenceInDays(birthday, now);
@@ -75,10 +71,6 @@ function GetDaysUntilBirthday(props: { name?: string; birthday: Date }) {
 }
 
 class PersonList extends Component<Persons> {
-  constructor(people: Persons) {
-    super(people);
-  }
-
   render() {
     return (
       <table>
@@ -87,11 +79,11 @@ class PersonList extends Component<Persons> {
           <th>Born</th>
           <th>Days to birthday</th>
         </tr>
-        {this.props.people.map((person) => (
+        {this.props.people.map((p) => (
           <tr>
-            <td>{person.name}</td>
-            <td>{GetThisYearsBirthdate(person)}</td>
-            <td>{GetDaysUntilBirthday(person)}</td>
+            <td>{p.name}</td>
+            <td>{GetThisYearsBirthdate(p)}</td>
+            <td>{GetDaysUntilBirthday(p)}</td>
           </tr>
         ))}
       </table>
@@ -99,24 +91,28 @@ class PersonList extends Component<Persons> {
   }
 }
 
-const familyList = [
-  { name: 'Kristoffer Hansen', birthday: new Date('1980-09-03') },
-  { name: 'Mikkel Hansen', birthday: new Date('1978-07-18') },
-  { name: 'Storm Hansen', birthday: new Date('2010-08-02') },
-  { name: 'Gunnar Hansen', birthday: new Date('1947-07-08') },
-  { name: 'Kamma Hansen', birthday: new Date('1950-10-10') },
-  { name: 'Ann-Mai Hansen', birthday: new Date('1983-11-07') },
-  { name: 'Erling Hansen', birthday: new Date('1941-08-15') },
-];
+const familyList: Persons = {
+  people: [
+    { name: 'Kristoffer Hansen', birthdate: new Date('1980-09-03') },
+    { name: 'Mikkel Hansen', birthdate: new Date('1978-07-18') },
+    { name: 'Storm Hansen', birthdate: new Date('2010-08-02') },
+    { name: 'Gunnar Hansen', birthdate: new Date('1947-07-08') },
+    { name: 'Kamma Hansen', birthdate: new Date('1950-10-10') },
+    { name: 'Ann-Mai Hansen', birthdate: new Date('1983-11-07') },
+    { name: 'Erling Hansen', birthdate: new Date('1941-08-15') },
+  ],
+};
 
-const friendsList = [
-  { name: 'Rene Christensen', birthday: new Date('1980-09-03') },
-  { name: 'Mikkel Hansen', birthday: new Date('1979-02-02') },
-  { name: 'Mark Herdal', birthday: new Date('1978-03-20') },
-  { name: 'Lars Lauritzen', birthday: new Date('1975-12-17') },
-  { name: 'Jonas Christensen', birthday: new Date('1979-11-22') },
-  { name: 'Thomas Hansen', birthday: new Date('1978-11-04') },
-];
+const friendsList: Persons = {
+  people: [
+    { name: 'Rene Christensen', birthdate: new Date('1980-09-03') },
+    { name: 'Mikkel Hansen', birthdate: new Date('1979-02-02') },
+    { name: 'Mark Herdal', birthdate: new Date('1978-03-20') },
+    { name: 'Lars Lauritzen', birthdate: new Date('1975-12-17') },
+    { name: 'Jonas Christensen', birthdate: new Date('1979-11-22') },
+    { name: 'Thomas Hansen', birthdate: new Date('1978-11-04') },
+  ],
+};
 
 render(
   <App family={familyList} friends={friendsList} />,
