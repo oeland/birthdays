@@ -9,15 +9,16 @@ import {
   differenceInDays,
 } from 'date-fns';
 
+type Person = {
+  name: string;
+  birthdate: Date;
+};
+
+type Persons = Person[];
+
 type AppProps = {
-  family: {
-    name: string;
-    birthday: Date;
-  }[];
-  friends: {
-    name: string;
-    birthday: Date;
-  }[];
+  family: Persons;
+  friends: Persons;
 };
 
 class App extends Component<AppProps> {
@@ -73,9 +74,9 @@ function GetDaysUntilBirthday(props: { name?: string; birthday: Date }) {
   return difference;
 }
 
-class PersonList extends Component<AppProps> {
-  constructor(props) {
-    super(props);
+class PersonList extends Component<Persons> {
+  constructor(people: Persons) {
+    super(people);
   }
 
   render() {
