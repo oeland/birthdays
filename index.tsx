@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './style.css';
-import { format, differenceInDays, compareDesc } from 'date-fns';
+import {
+  format,
+  differenceInDays,
+  differenceInYears,
+  compareDesc,
+} from 'date-fns';
 
 type Person = {
   name: string;
@@ -58,19 +63,29 @@ function GetDaysUntilBirthday(props: Person) {
   return differenceInDays(nextBirthDay, now) + 1;
 }
 
+function GetAge(props: Person) {
+  const now = new Date();
+
+  return differenceInYears(now, props.birthdate);
+}
+
 class PersonList extends Component<Persons> {
   render() {
     return (
       <table>
         <tr>
           <th>Name</th>
+          <th>Age</th>
           <th>Next birthday</th>
           <th>Days to next birthday</th>
         </tr>
         {this.props.people.map((p) => (
           <tr>
             <td>{p.name}</td>
-            <td>{format(GetNextBirthday(p), 'dd-MM-yyyy')}</td>
+            <td>{GetAge(p)}</td>
+            <td title={'Born ' + format(p.birthdate, 'dd-MM-yyyy')}>
+              {format(GetNextBirthday(p), 'dd-MM-yyyy')}
+            </td>
             <td>{GetDaysUntilBirthday(p)}</td>
           </tr>
         ))}
