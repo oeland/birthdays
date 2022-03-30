@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as ReactDOMClient from 'react-dom/client';
 import { render } from 'react-dom';
 import './style.css';
 import {
@@ -76,12 +77,14 @@ class PersonList extends Component<Persons> {
   render() {
     return (
       <table>
-        <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Next birthday</th>
-          <th>Days to next birthday</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Next birthday</th>
+            <th>Days to next birthday</th>
+          </tr>
+        </thead>
         {this.props.people.map((p) => (
           <tr>
             <td>{p.name}</td>
@@ -97,7 +100,7 @@ class PersonList extends Component<Persons> {
   }
 
   componentDidMount() {
-    // this.timerID = setInterval(() => this.setState({ time: new Date() }), 1000);
+    this.timerID = setInterval(() => this.setState({ time: new Date() }), 1000);
   }
 
   componentWillUnmount() {
@@ -123,7 +126,8 @@ const friendsList: Persons = [
   { name: 'Thomas Hansen', birthdate: new Date('1978-11-04') },
 ];
 
-render(
-  <App family={familyList} friends={friendsList} />,
-  document.getElementById('root')
-);
+const container = document.getElementById('root');
+
+// Create a root.
+const root = ReactDOMClient.createRoot(container);
+root.render(<App family={familyList} friends={friendsList} />);
