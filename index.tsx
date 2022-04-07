@@ -57,7 +57,7 @@ function GetNextBirthday(props: Person, now: Date) {
 function GetDaysUntilBirthday(props: Person, now: Date) {
   const nextBirthDay = GetNextBirthday(props, now);
 
-  console.log(now, nextBirthDay);
+  //console.log(now, nextBirthDay);
 
   return differenceInDays(nextBirthDay, now) + 1;
 }
